@@ -6,6 +6,10 @@ export function Cell() {
             value = ship;
         },
 
+        removeValue() {
+            value = null;
+        },
+
         getValue() {
             return value;
         },
@@ -21,8 +25,16 @@ export function Cell() {
             }
         },
 
-        isHit() {
+        hasBeenHit() {
             return hitStatus;
+        },
+
+        isHitButShipMissed() {
+            return !this.hasShip() && hitStatus;
+        },
+
+        isShipHit() {
+            return this.hasShip() && hitStatus;
         }
     }
 }

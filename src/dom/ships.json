@@ -1,0 +1,22 @@
+[
+    {
+        "link": "./images/icons/battleship-piece-1.png",
+        "length": 5
+    },
+    {
+        "link": "./images/icons/battleship-piece-2.png",
+        "length": 4
+    },
+    {
+        "link": "./images/icons/battleship-piece-3.png",
+        "length": 3
+    },
+    {
+        "link": "./images/icons/battleship-piece-4.png",
+        "length": 3
+    },
+    {
+        "link": "./images/icons/battleship-piece-5.png",
+        "length": 2
+    }
+]

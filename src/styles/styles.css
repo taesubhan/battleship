@@ -1,0 +1,172 @@
+:root {
+    --board-length: 500px;
+    --board-number-of-cells: 10;
+    --cell-length: calc(var(--board-length) / var(--board-number-of-cells));
+    --piece-1-len: 5;
+    --piece-2-len: 4;
+    --piece-3-len: 3;
+    --piece-4-len: 3;
+    --piece-5-len: 2;
+    --piece-1-vertical-calc: calc((var(--cell-length) * var(--piece-1-len) / 2) - (var(--cell-length) / 2));
+    --piece-2-vertical-calc: calc((var(--cell-length) * var(--piece-2-len) / 2) - (var(--cell-length) / 2));
+    --piece-3-vertical-calc: calc((var(--cell-length) * var(--piece-3-len) / 2) - (var(--cell-length) / 2));
+    --piece-4-vertical-calc: calc((var(--cell-length) * var(--piece-4-len) / 2) - (var(--cell-length) / 2));
+    --piece-5-vertical-calc: calc((var(--cell-length) * var(--piece-5-len) / 2) - (var(--cell-length) / 2));
+}
+
+html {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* Game setup screen */
+.ships-position {
+    width: 900px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+}
+
+/* Message box */ 
+.text-output {
+    height: 50px;
+}
+
+.error-message {
+    color: red;
+}
+
+/* .center-settings {
+
+} */
+
+/* Game board */
+
+.board-and-pieces {
+    display: flex;
+}
+
+.all-game-board-container {
+    display: flex;
+    margin: 0px 50px;
+}
+
+.game-board {
+    margin: 0px;
+    margin-right: 20px;
+    padding: 0px;
+    width: var(--board-length);
+    height: var(--board-length);
+    display: grid;
+    grid-template-columns: repeat(var(--board-number-of-cells), 1fr);
+    grid-template-rows: repeat(var(--board-number-of-cells), 1fr);
+}
+
+.board-cell {
+    list-style-type: none;
+    outline: 1px black solid;
+    position: relative;
+}
+
+.ship-in-cell {
+    background-color: rgb(133, 133, 255);
+}
+
+.ship-hit {
+    /* background-color: red; */
+}
+
+.dot-target-marker {
+    width: var(--cell-length);
+    height: var(--cell-length);
+    /* width: 50px; */
+    position: absolute;
+    z-index: 3;
+
+}
+
+.hit-marker { 
+    filter: invert(17%) sepia(86%) saturate(5975%) hue-rotate(356deg) brightness(91%) contrast(130%);
+}
+
+.miss-marker {
+    filter: invert(89%) sepia(92%) saturate(6654%) hue-rotate(309deg) brightness(107%) contrast(97%);
+}
+
+.hit-with-no-ship {
+    /* background-color: rgb(251, 202, 111); */
+}
+
+.hovered-valid {
+    background-color: blue;
+}
+
+.hovered-invalid {
+    background-color: red;
+}
+
+/* Game board pieces */
+.game-piece {
+    width: var(--cell-length);
+    height: var(--cell-length);
+    position: relative;
+}
+
+.game-piece-img {
+    height: 100%;
+    position: absolute;
+}
+
+#piece-1 {
+    width: calc(var(--piece-1-len) * 100%);
+}
+
+#piece-2 {
+    width: calc(var(--piece-2-len) * 100%);
+}
+
+#piece-3 {
+    width: calc(var(--piece-3-len) * 100%);
+}
+
+#piece-4 {
+    width: calc(var(--piece-4-len) * 100%);
+}
+
+#piece-5 {
+    width: calc(var(--piece-5-len) * 100%);
+}
+
+[orientation="horizontal"] {
+
+}
+
+#piece-1[orientation="vertical"] {
+    transform: rotate(90deg) translate(var(--piece-1-vertical-calc), var(--piece-1-vertical-calc));
+}
+
+#piece-2[orientation="vertical"] {
+    transform: rotate(90deg) translate(var(--piece-2-vertical-calc), var(--piece-2-vertical-calc));
+}
+
+#piece-3[orientation="vertical"] {
+    transform: rotate(90deg) translate(var(--piece-3-vertical-calc), var(--piece-3-vertical-calc));
+}
+
+#piece-4[orientation="vertical"] {
+    transform: rotate(90deg) translate(var(--piece-4-vertical-calc), var(--piece-4-vertical-calc));
+}
+
+#piece-5[orientation="vertical"] {
+    transform: rotate(90deg) translate(var(--piece-5-vertical-calc), var(--piece-5-vertical-calc));
+}
+
+
+/*Delete*/
+.player-board-updated {
+    margin: 25px 0px;
+}

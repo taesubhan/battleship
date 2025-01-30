@@ -6,6 +6,56 @@
     <title>Battleship</title>
 </head>
 <body>
+    <div id="container">
+        <div class="header">
+            <h1>Battleship</h1>
+        </div>
+        <div class="body">
+            <div class="set-up-input">
+                <form action="" class="game-set-up-form">
+                    <div class="player1-name-input">
+                        <label for="player1-name">Player 1 name: </label>
+                        <input type="text" id="player1-name">
+                    </div>
+                    <div class="settings-button">
+                        <button class="start">Start</button>
+                        <button class="place-ships-button" hidden="true">Place Ships</button>
+                        <button class="randomize-ships-button" hidden="true">Randomize</button>
+                        <button class="submit-settings-button" hidden="true">Start Game</button>
+                        <!-- <button class="update-board">Update</button> -->
+                    </div>
+                </form>
+                <button class="play-again-button" hidden="true">Play Again</button>
+            </div>
+            <div class="text-output">
+                <p class="error-message"></p>
+                <p class="game-message"></p>
+            </div>
+            <div class="board-and-pieces">
+                <div class="all-game-board-container">
+                    <div class="opponent-container game-board-container"></div>
+                    <div class="player-container game-board-container"></div>
+                </div>
+                <!-- <div class="game-pieces-container" hidden="true">
+                    <div class="game-piece">
+                        <img src="./images/icons/battleship-piece-1.png" alt="game piece 1" class="game-piece-img" id="piece-1" draggable="true" orientation="horizontal" shipID="0" length="5">
+                    </div>
+                    <div class="game-piece">
+                        <img src="./images/icons/battleship-piece-2.png" alt="game piece 2" class="game-piece-img" id="piece-2" draggable="true" orientation="horizontal" shipID="1" length="4">
+                    </div>
+                    <div class="game-piece">
+                        <img src="./images/icons/battleship-piece-3.png" alt="game piece 3" class="game-piece-img" id="piece-3" draggable="true" orientation="horizontal" shipID="2" length="3">
+                    </div>
+                    <div class="game-piece">
+                        <img src="./images/icons/battleship-piece-4.png" alt="game piece 4" class="game-piece-img" id="piece-4" draggable="true" orientation="horizontal" shipID="3" length="3">
+                    </div>
+                    <div class="game-piece">
+                        <img src="./images/icons/battleship-piece-5.png" alt="game piece 5" class="game-piece-img" id="piece-5" draggable="true" orientation="horizontal" shipID="4" length="2">
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

@@ -1,4 +1,6 @@
-import './styles.css';
+import './styles/styles.css';
+// import { buildBoard } from './dom/screen-controller.js';
+// import { Gameboard } from './logic/gameboard.js';
+import { startGame } from './dom/start.js';
 
-console.log('test');
-console.log('hello world!');
+startGame();
