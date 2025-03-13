@@ -27,6 +27,10 @@ export function Gameboard(size) {
     ////
 
     return {
+        getSize() {
+            return size;
+        },
+        
         showBoard() {
             const newBoard = [];
             for (const row of board) {
@@ -135,8 +139,7 @@ export function Gameboard(size) {
         },
 
         isLegalAttack(x, y) {
-            const cell = board[y][x];
-            return this.isCellInBounds(x,y) && !cell.hasBeenHit();
+            return this.isCellInBounds(x,y) && !board[y][x].hasBeenHit();
         },
 
         receiveAttack(x, y) {

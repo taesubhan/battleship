@@ -1,4 +1,6 @@
 import { Player } from './player.js';
+import { getRandomNum } from './computer.js';
+import { Computer } from './computer.js';
 
 //find way to move already placed pieces
 
@@ -6,9 +8,10 @@ export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Playe
     let player1;
     let player2;
     let currentPlayer;
-    let playerBoard;
-    let opponentBoard;
+    let currentOpponent;
     let currentBoard;
+    let opponentBoard;
+    let gameBot;
 
     setUpGame();
 
@@ -17,8 +20,13 @@ export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Playe
         player2 = Player(secondPlayerName, gameboardSize);
         currentPlayer = player1;
         currentBoard = currentPlayer.getBoard();
-        playerBoard = currentPlayer.getBoard();
+        currentOpponent = player2;
         opponentBoard = player2.getBoard();
+        gameBot = Computer(currentBoard);
+    }
+
+    function getPlayers() {
+        return [player1, player2];
     }
 
     function getPlayer1Board() {
@@ -33,8 +41,12 @@ export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Playe
         return currentPlayer;
     }
 
+    function getCurrentOpponent() {
+        return currentOpponent;
+    }
+
     function getCurrentPlayerBoard() {
-        return playerBoard;
+        return currentBoard;
     }
 
     function getOpponentBoard() {
@@ -42,18 +54,14 @@ export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Playe
     }
 
     function switchPlayer() {
+        opponentBoard = currentBoard;
+        currentOpponent = currentPlayer;
         currentPlayer = currentPlayer == player1 ? player2 : player1;
         currentBoard = currentPlayer.getBoard();
-        opponentBoard = playerBoard;
-        playerBoard = currentPlayer.getBoard();
     }
 
     function isGameOver() {
         return opponentBoard.areAllShipsSunk();
-    }
-
-    function placePlayerShip(len, x, y, orientation, id) {
-        playerBoard.placeShip(len, x, y, orientation, id);
     }
 
     function placeShip(len, x, y, orientation, id) {
@@ -95,27 +103,18 @@ export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Playe
         return null;
     }
 
-    // Get random number between min and max (exclusive);
-    function getRandomNum(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
 
     function compMakeMove() {
-        let legalMove = false;
-        while (!legalMove) {
-            let x = getRandomNum(0, gameboardSize);
-            let y = getRandomNum(0, gameboardSize);
-            legalMove = this.isLegalMove(x,y);
-            if(legalMove) opponentBoard.receiveAttack(x,y);
-        }
+        gameBot.makeComputedAttackOnBoard();
     }
+
 
     function reset() {
         setUpGame();
     }
 
 
-    return {getPlayer1Board, getPlayer2Board, getCurrentPlayer, getCurrentPlayerBoard, getOpponentBoard, switchPlayer, isGameOver, 
-        placePlayerShip, placeShip, placeShipsRandomly, isLegalMove, makeMove, getIDOfSunkenShipFromCoor, compMakeMove, reset};
+    return {getPlayers, getPlayer1Board, getPlayer2Board, getCurrentPlayer, getCurrentOpponent, getCurrentPlayerBoard, getOpponentBoard, switchPlayer, isGameOver, 
+        placeShip, placeShipsRandomly, isLegalMove, makeMove, getIDOfSunkenShipFromCoor, compMakeMove, reset};
     
 }

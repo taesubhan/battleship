@@ -1,4 +1,4 @@
-import { makePieceDraggable, makePieceClickable} from './dragging-pieces.js';
+import { makePieceMoveable } from './moving-pieces.js';
 
 import shipsJSON from './ships.json' with { type:'json' };
 
@@ -14,7 +14,8 @@ export function buildGamePiecesImgContainer(gameboardObj) {
         const imgDiv = document.createElement('div');
         imgDiv.classList.add('game-piece');
 
-        const img = buildImgDOM(i, imgObj.link, imgObj.length, 'horizontal', true, gameboardObj);
+        const img = buildImgDOM(i, imgObj.link, imgObj.length, 'horizontal');
+        makeImgDOMMoveable(img, gameboardObj);
         imgDiv.appendChild(img);
 
         container.appendChild(imgDiv);
@@ -28,22 +29,22 @@ export function removeGamePiecesImgContainer() {
     if (gamePieceContainer) gamePieceContainer.remove();
 }
 
-// Creates an IMG element representing a single game piece (ship)
-export function buildImgDOM(id, link, length, orientation = 'horizontal', draggable = false, gameboardObj) {
-    const img = new Image(); //document.createElement('img');
-        img.src = link;
-        img.alt = `game piece ${id + 1}`;
-        img.classList.add('game-piece-img');
-        img.id = `piece-${id + 1}`;
-        img.setAttribute('orientation', orientation);
-        img.setAttribute('shipID', id);
-        img.setAttribute('length', length);
-        img.style.zIndex = 1;
+export function buildImgDOM(id, link, length, orientation = 'horizontal') {
+    const img = new Image(); 
+    img.src = link;
+    img.alt = `game piece ${id + 1}`;
+    img.classList.add('game-piece-img');
+    img.id = `piece-${id + 1}`;
+    img.setAttribute('orientation', orientation);
+    img.setAttribute('shipID', id);
+    img.setAttribute('length', length);
+    img.style.zIndex = 1;
 
-        if (draggable) {
-            img.draggable = true;
-            makePieceDraggable(img);
-            makePieceClickable(img, length, id, gameboardObj);
-        }
-        return img;
+    return img;
+}
+
+export function makeImgDOMMoveable(imgDOM, gameboardObj) {
+    const length = parseInt(imgDOM.getAttribute('length'));
+    const id = parseInt(imgDOM.getAttribute('shipid'));
+    makePieceMoveable(imgDOM, length, id, gameboardObj);
 }

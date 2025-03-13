@@ -125,7 +125,7 @@ function drop(ev, gameObj) {
         makeImgVisible(img);
         return;
     } else {
-        gameObj.placePlayerShip(len, headX, headY, ori, shipID);
+        gameObj.placeShip(len, headX, headY, ori, shipID);
         headCell.appendChild(img);
     }
 
@@ -141,7 +141,7 @@ function resetStoredInfo() {
 }
 
 // Takes gameboard object and game object to make so that the game pieces can be dropped onto the cells of the game board
-export function makeCellsDroppable(gameboardDOM, gameObj) {
+export function makeBoardDroppable(gameboardDOM, gameObj) {
     const cells = gameboardDOM.querySelectorAll('.board-cell');
     for (let cell of cells) {
         cell.addEventListener('dragover', (ev) => {
@@ -158,10 +158,16 @@ export function makeCellsDroppable(gameboardDOM, gameObj) {
 }
 
 // Makes game image DOM piece draggable
-export function makePieceDraggable(imgDOM) {
+function makePieceDraggable(imgDOM) {
+    imgDOM.draggable = true;
     imgDOM.addEventListener('dragstart', dragStart);
 }
 
-export function makePieceClickable(imgDOM, len, shipID, gameboardObj) {
+function makePieceClickable(imgDOM, len, shipID, gameboardObj) {
     imgDOM.addEventListener('click', (e) => changeShipOrientation(imgDOM, len, shipID, gameboardObj));
+}
+
+export function makePieceMoveable(imgDOM, len, shipID, gameboardObj) {
+    makePieceDraggable(imgDOM);
+    makePieceClickable(imgDOM, len, shipID, gameboardObj);
 }

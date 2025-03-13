@@ -24,6 +24,10 @@ html {
 }
 
 /* Game setup screen */
+.set-up-input {
+    height: 50px;
+}
+
 .ships-position {
     width: 900px;
     display: grid;
@@ -38,6 +42,10 @@ html {
 
 .error-message {
     color: red;
+}
+
+.text-from-game {
+    margin: 2px;
 }
 
 /* .center-settings {
