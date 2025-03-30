@@ -1,6 +1,7 @@
 import { Cell } from './cell.js';
 import { Ship } from './ship.js';
 
+// Return a nested array containing Cell objects, representing a 2-dimensional game board
 function createBoard(size) {
     const board = new Array(size);
     for (let i = 0; i < size; i++) {
@@ -9,28 +10,29 @@ function createBoard(size) {
     return board;
 }
 
+// Game board object that represents a 2-d board game of size n cells. Board stores information such as ships and attacks made
 export function Gameboard(size) {
     const board = createBoard(size);
     const allShips = [];
 
-    // Template: Delete later
-    const testAllShips = [
-        {
-            length: 3,
-            orientation: 'horizontal',
-            headX: 3,
-            headY: 5,
-            ship: Ship(),
-            cells: [[0,1], [0,2], [0,3]],
-        }
-    ]
-    ////
+    // Example of allShips array
+    // const testAllShips = [
+    //     {
+    //         length: 3,
+    //         orientation: 'horizontal',
+    //         headX: 3,
+    //         headY: 5,
+    //         ship: Ship(),
+    //         cells: [[0,1], [0,2], [0,3]],
+    //     }
+    // ]
 
     return {
         getSize() {
             return size;
         },
         
+        // Displays a simplified version of the game board on the console
         showBoard() {
             const newBoard = [];
             for (const row of board) {
@@ -40,22 +42,27 @@ export function Gameboard(size) {
             return newBoard;
         },
 
+        // Return the 2-d array representation of the game board
         getBoard() {
             return board;
         },
 
+        // Return array of all ships on board
         getAllShips() {
             return allShips;
         },
 
+        // Returns the number of ships existing in the board
         getShipCount() {
             return allShips.filter((elem) => elem).length;
         },
 
+        // Returns the ship object given the ship ID
         getShip(id) {
             return allShips[id];
         },
 
+        // Returns boolean on whether the x and y coordinates are within the game board boundary
         isCellInBounds(x,y) {
             return x < size && x >= 0 && y < size && y >= 0;
         },
@@ -64,11 +71,13 @@ export function Gameboard(size) {
             return board[y][x].hasShip();
         },
 
+        // Given x and y coordinate of cell, throws errors if the location is not a legal move, e.g. out of bounds, ship exists
         checkBoardSpace(x,y) {
             if (!this.isCellInBounds(x,y)) throw new Error('Coordinate is out of game board\'s boundary');
             if (this.isShipInCell(x,y)) throw new Error('Another ship already occupies this coordinate' + ` (${x},${y})`);
         },
 
+        // Checks whether an [x,y] coordinate is within the array argument
         isCoordinatesInArray(arr, coor) {
             for (let a of arr) {
                 if (JSON.stringify(a) == JSON.stringify(coor)) return true;
@@ -76,6 +85,7 @@ export function Gameboard(size) {
             return false;
         },
 
+        // Based on the ship's head location and length and oriention, returns an array of cells that the ship resides in
         getShipPlacement(len, xCoor, yCoor, orientation, exclusion = []) {
             const cells = [];
             for (let i = 0; i < len; i++) {
@@ -87,18 +97,13 @@ export function Gameboard(size) {
                     if (!this.isCoordinatesInArray(exclusion, [x,y])) this.checkBoardSpace(x,y);
                     cells.push([x,y]);
                 } catch(err) {
-                    console.log(err);
                     return null;
                 }
             }
             return cells;
         },
 
-        // moveShip(len, ori, xDestination, yDestination) {
-            
-        // },
-
-        isPlacementValid(cells, length) {
+        isPlacementValid(cells, length) { // cells represent an array of Cell objects
             return Boolean(cells) && cells.length == length;
         },
 
@@ -109,10 +114,6 @@ export function Gameboard(size) {
         removeShipFromCells(cells) {
             cells.forEach(([x, y]) => board[y][x].removeValue());
         },
-
-        // consider removing all properties from allShips except ship + cells
-
-        //Need to fix this. The error is not moving through to Screen Controller for randomizer
 
         placeShip(length, headX, headY, orientation, id) {
             const targetShip = allShips[id];

@@ -1,19 +1,27 @@
 import { Gameplay } from '../logic/gameplay.js';
 import { clearAllMessages, clearError, addGamePiecesDOM, displayCurrentPlayerBoard, makePiecesMoveableOnPlayerBoard, 
     displayAllGameboards, removeBoards, displayError, displayGameMessage } from './screen-controller.js';
-import { removeGamePiecesImgContainer } from './build-piece-img.js';
+import { removeGamePiecesImgContainer, emptyGamePiecesImgContainer } from './build-piece-img.js';
 import { removeAllChildren } from './dom-functions.js';
 import { makeComputerOpponentBoardClickable, makePlayerOpponentBoardClickable } from './cell-click.js';
-
 import shipsJSON from './ships.json' with { type:'json' };
+import titleImgFile from '../images/background/battleship-title.png';
 
 let gameObj;
 let gameOpponent;
 const shipSizes = shipsJSON.map((obj) => obj.length);
 
-// WHere user starts. Need to show option to play against player or computer
+export function displayGameTitle() {
+    const header = document.querySelector('.header');
+    const titleImg = document.createElement('img');
+    titleImg.classList.add('title-header'); 
+    titleImg.alt = 'Battleship Title';
+    titleImg.src = titleImgFile;
+    header.appendChild(titleImg);
+}
+
+// Where user starts. Need to show option to play against player or computer
 export function setUpStartMenu() {
-    // displayPlayerVsPlayerForm();
     displayForm(createStartGameOptions());
 }
 
@@ -23,7 +31,7 @@ function createStartGameOptions() {
     const settingsButton = document.createElement('div');
     settingsButton.classList.add('settings-button');
   
-    const vsCompBtn = createVsComptuerBtn();
+    const vsCompBtn = createVsComputerBtn();
     const vsPlayerBtn = createVsPlayerBtn();
   
     settingsButton.appendChild(vsCompBtn);
@@ -34,11 +42,12 @@ function createStartGameOptions() {
     return form;
 }
 
-function createVsComptuerBtn() {
+function createVsComputerBtn() {
     const btn = document.createElement('button');
-    btn.classList.add('start-vs-computer-game');
-    btn.textContent = 'Computer'
+    btn.classList.add('start-vs-computer-game', 'game-vs-button', 'game-button');
+    btn.textContent = 'Vs. Computer'
     btn.addEventListener('click', (e) => {
+        e.preventDefault();
         displayPlayerVsComputerForm();
     });
     return btn;
@@ -46,9 +55,10 @@ function createVsComptuerBtn() {
 
 function createVsPlayerBtn() {
     const btn = document.createElement('button');
-    btn.classList.add('start-vs-player-game');
-    btn.textContent = 'Player'
+    btn.classList.add('start-vs-player-game', 'game-vs-button', 'game-button');
+    btn.textContent = 'Vs. Player'
     btn.addEventListener('click', (e) => {
+        e.preventDefault();
         displayPlayerVsPlayerForm();
     });
     return btn;
@@ -56,12 +66,18 @@ function createVsPlayerBtn() {
 
 function displayPlayerVsPlayerForm() {
     gameOpponent = 'Player';
-    displayForm(createPlayerVsPlayerForm());
+    const container = document.createElement('div');
+    container.classList.add('input-name-container');
+    container.appendChild(createPlayerVsPlayerForm());
+    displayForm(container);
 }
 
 function displayPlayerVsComputerForm() {
     gameOpponent = 'Computer';
-    displayForm(createPlayerVsComputerForm());
+    const container = document.createElement('div');
+    container.classList.add('input-name-container');
+    container.appendChild(createPlayerVsComputerForm());
+    displayForm(container);
 }
 
 function startGameBoardSetUpStage() {
@@ -76,9 +92,8 @@ function setNewGameObj() {
 
 function displayBoardToPlacePieces() {
     clearAllMessages();
-    // gameObj = createGameObj(gameOpponent);
 
-    displayGameMessage(`${gameObj.getCurrentPlayer().getName()}, please place your ships on the board and then click start`);
+    displayGameMessage(`${gameObj.getCurrentPlayer().getName()}, drag and drop all your ships on the board and click "Start Game"`);
     displayCurrentPlayerBoard(gameObj);
     addGamePiecesDOM(gameObj.getCurrentPlayerBoard());
     makePiecesMoveableOnPlayerBoard(gameObj);
@@ -127,7 +142,7 @@ function createForm() {
 // Button to submit player 1 name
 function createSubmitNameButton() {
     const submitNameButton = document.createElement('button');
-    submitNameButton.classList.add('submit-name');
+    submitNameButton.classList.add('submit-name', 'game-button');
     submitNameButton.textContent = "Ready";
 
     enableSubmitNameButton(submitNameButton);
@@ -137,7 +152,7 @@ function createSubmitNameButton() {
 
 function createStartGameButton() {
     const startButton = document.createElement('button');
-    startButton.classList.add('start-game-button');
+    startButton.classList.add('start-game-button', 'board-set-up-button', 'game-button');
     startButton.textContent = "Start Game";
 
     enableStartGameButton(startButton);
@@ -147,7 +162,7 @@ function createStartGameButton() {
 
 function createRandomizeShipsButton() {
     const randomizeShipsButton = document.createElement('button');
-    randomizeShipsButton.classList.add('randomize-ships-button');
+    randomizeShipsButton.classList.add('randomize-ships-button', 'board-set-up-button', 'game-button');
     randomizeShipsButton.textContent = "Randomize";
     enableRandomizeShipsButton(randomizeShipsButton);
 
@@ -156,7 +171,7 @@ function createRandomizeShipsButton() {
 
 function createReplayButton() {
     const replayButton = document.createElement('button');
-    replayButton.classList.add('play-again-button');
+    replayButton.classList.add('play-again-button', 'game-button');
     replayButton.textContent = "Play Again";
     enableReplayButton(replayButton);
 
@@ -170,10 +185,12 @@ function createPlayerNameInput(playerNum) {
     playerNameInput.classList.add(`player${playerNum}-name-input`);
   
     const playerNameLabel = document.createElement('label');
+    playerNameLabel.classList.add(`player-name-label`);
     playerNameLabel.htmlFor = `player${playerNum}-name`;
     playerNameLabel.textContent = `Player ${playerNum} name: `;
   
     const playerNameInputBox = document.createElement('input');
+    playerNameInputBox.classList.add('player-name-input');
     playerNameInputBox.type = "text";
     playerNameInputBox.id = `player${playerNum}-name`;
   
@@ -235,13 +252,6 @@ function createGameObj(gameOpponent) {
         p2Name = player2Name.value === '' ? 'Player 2' : player2Name.value;
     }
 
-    // if (!gameObj) {
-    //     p1Name = playerName.value === '' ? 'Player 1' : playerName.value;
-    //     p2Name = 'Player 2';
-    // } else {
-    //     p1Name = gameObj.getPlayers()[0].getName();
-    //     p2Name = gameObj.getPlayers()[1].getName();
-    // }
     const newGame = Gameplay(p1Name, p2Name);
     return newGame;
 }
@@ -253,7 +263,6 @@ function removeForm() {
 function setComputerPiecesOnBoard() {
     gameObj.switchPlayer();
     gameObj.placeShipsRandomly(...shipSizes); // Places computer ship randomly
-    // gameObj.placeShip(2, 0, 0, 'horizontal', 0)
     gameObj.switchPlayer();
 }
 
@@ -299,10 +308,8 @@ function enableStartGameButton(startButton) {
                 displayScreenToStartMatch();
             }
         }
-        
     })
 }
-
 
 
 function enableSubmitNameButton(submitNameButtonDOM) {
@@ -329,7 +336,7 @@ function enableRandomizeShipsButton(randomizeButton) {
 
         displayCurrentPlayerBoard(gameObj);
         makePiecesMoveableOnPlayerBoard(gameObj);
-        removeGamePiecesImgContainer();
+        emptyGamePiecesImgContainer();
         clearError();
     })
 }

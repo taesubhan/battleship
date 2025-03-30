@@ -1,5 +1,16 @@
 :root {
-    --board-length: 500px;
+    font-family: sans-serif, Arial, 'Times New Roman';
+    --page-header-size: 40px;
+    --input-font-size: 25px;
+    --button-font-size: 20px;
+    --button-border-radius: 10px;
+    --button-background-color: oklch(0.928 0.006 264.531);
+
+    --game-message-font-size: 20px;
+
+    --board-title-font-size: 16px;
+
+    --board-length: 450px;
     --board-number-of-cells: 10;
     --cell-length: calc(var(--board-length) / var(--board-number-of-cells));
     --piece-1-len: 5;
@@ -12,10 +23,13 @@
     --piece-3-vertical-calc: calc((var(--cell-length) * var(--piece-3-len) / 2) - (var(--cell-length) / 2));
     --piece-4-vertical-calc: calc((var(--cell-length) * var(--piece-4-len) / 2) - (var(--cell-length) / 2));
     --piece-5-vertical-calc: calc((var(--cell-length) * var(--piece-5-len) / 2) - (var(--cell-length) / 2));
+
+    
 }
 
 html {
     box-sizing: border-box;
+    height: 100%;
 }
 *,
 *::before,
@@ -23,9 +37,116 @@ html {
     box-sizing: inherit;
 }
 
+body {
+    height: 100%;
+    margin: 0px;
+}
+
+/* Text */
+
+
+.player-name-label,
+.game-message {
+    color: white;
+    font-weight: bold;
+}
+
+.message-container {
+    background-color: rgba(0,0,0,.4);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.input-name-container {
+    background-color: rgba(0,0,0,.4);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.board-title {
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0,0,0,.4);
+    padding: 00px;
+    border-radius: 0px;
+    text-align: center;
+}
+
+
+
+/* Container */
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    
+}
+
+.background-image {
+    background-image: url('../images/background/battleship_background_1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+/* Header */
+
+.title-header {
+    /* font-size: var(--page-header-size);
+    margin: 15px; */
+    width: 450px;
+}
+
+/* Buttons */
+
+.game-button {
+    background-color: var(--button-background-color);
+    border-radius: var(--button-border-radius);
+    font-size: var(--button-font-size);
+    padding: 5px;
+}
+
+.game-vs-button {
+    font-size: 25px;
+    font-weight: bold;
+    width: 220px;
+    height: 75px;
+    /* margin: 80px 0px; */
+}
+
+.settings-button {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    /* margin: 20px; */
+}
+
+.board-set-up-button {
+    width: 110px;
+    font-size: 15px;
+}
+
+.play-again-button {
+    width: 120px;
+}
+
+
 /* Game setup screen */
 .set-up-input {
-    height: 50px;
+    /* height: 50px; */
+    min-height: 37px;
+    display: flex;
+    justify-content: center;
+    margin: 0px;
 }
 
 .ships-position {
@@ -35,9 +156,46 @@ html {
     justify-items: center;
 }
 
+
+
+.submit-name {
+    font-size: var(--button-font-size);
+    padding: 10px;
+    border-radius: var(--button-border-radius);
+}
+
+
+
+.game-set-up-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Board set-up */
+
+
+/* Player Name */
+.player-name-label {
+    font-size: var(--input-font-size);
+}
+
+.player-name-input {
+    height: calc(var(--input-font-size) * 1.6);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: var(--input-font-size);
+}
+
+
+
 /* Message box */ 
 .text-output {
     height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .error-message {
@@ -46,6 +204,8 @@ html {
 
 .text-from-game {
     margin: 2px;
+    font-size: var(--game-message-font-size);
+    text-align: center;
 }
 
 /* .center-settings {
@@ -54,24 +214,42 @@ html {
 
 /* Game board */
 
+.board-title {
+    font-size: var(--board-title-font-size);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+}
+
 .board-and-pieces {
     display: flex;
+    justify-content: center;
+    margin: 10px;
+    position: relative;
 }
+
 
 .all-game-board-container {
     display: flex;
-    margin: 0px 50px;
+    justify-content: center;
+    margin: 0px 0px;
+    
+}
+
+.all-game-board-container.contains-player-board.contains-opponent-board {
+    gap: 50px;
 }
 
 .game-board {
     margin: 0px;
-    margin-right: 20px;
+    margin-right: 00px;
     padding: 0px;
     width: var(--board-length);
     height: var(--board-length);
     display: grid;
     grid-template-columns: repeat(var(--board-number-of-cells), 1fr);
     grid-template-rows: repeat(var(--board-number-of-cells), 1fr);
+    background-color: oklch(0.715 0.143 215.221);
 }
 
 .board-cell {
@@ -118,16 +296,34 @@ html {
 }
 
 /* Game board pieces */
+.game-pieces-container {
+    width: calc(var(--cell-length) * 5 + 2%);
+    height: calc(var(--cell-length) * 5 + 2%);
+    position: absolute;
+    left: calc(50% + var(--board-length)/2 + 3%);
+
+    background-color: rgba(255, 255, 255, 0.4);
+    /* padding: 10px; */
+    border-radius: 10px;
+    /* right: 0px - calc(0px - calc(var(--cell-length) * 5)); */
+    /* margin-left: 20px; */
+}
+
 .game-piece {
     width: var(--cell-length);
     height: var(--cell-length);
     position: relative;
+    
 }
 
 .game-piece-img {
     height: 100%;
     position: absolute;
+    mix-blend-mode: multiply;
+
 }
+
+
 
 #piece-1 {
     width: calc(var(--piece-1-len) * 100%);

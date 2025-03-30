@@ -1,15 +1,7 @@
-
-[] create system for users to place their ship coordinates in beginning
-[] Add Play again option
-[] Have game result message in webpage instead of alert()
-[] clean up code and organize it
-[] clean up aesthetic of the game
+[] Organize code
+[] Comment code
+[] Make game more aesthetic
 
 
 Later:
-[] Notify player when ship sunk
 [] add delay in computer's action
-[] Add randomize ship option
-[] Add drag and drop
-[] Create 2 player option
-[] Improve intelligence of comp

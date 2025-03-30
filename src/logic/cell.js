@@ -1,3 +1,4 @@
+// A cell on a game board
 export function Cell() {
     let value = null;
     let hitStatus = false;

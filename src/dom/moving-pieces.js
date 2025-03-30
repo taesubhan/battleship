@@ -1,23 +1,35 @@
+import shipPiece from '../images/icons/blank_transparent_img.png';
+
 let draggedImg;
 let adjX;
 let adjY;
 let hoveredCells;
+
+const ghostImg = new Image();
+ghostImg.src = shipPiece;
+ghostImg.style.width = ''
 
 function dragStart(ev) {
     const imgWidth = parseFloat(window.getComputedStyle(ev.target).getPropertyValue('width'));
     const imgHeight = parseFloat(window.getComputedStyle(ev.target).getPropertyValue('height'));
 
     const length = parseInt(ev.target.getAttribute('length'));
-
-    adjX = Math.floor(ev.offsetX / (imgWidth/length));
-    adjY = Math.floor(ev.offsetY / (imgHeight/1))
+    const ori = ev.target.getAttribute('orientation');
+    
+    const widthOffset = Math.floor(ev.offsetX / (imgWidth/length));
+    const heightOffset = Math.floor(ev.offsetY / (imgHeight/1));
+    
+    adjX = ori == 'horizontal' ? widthOffset : heightOffset;
+    adjY = ori == 'horizontal' ? heightOffset : widthOffset;
 
     ev.dataTransfer.setData('text/plain', JSON.stringify({
         id: ev.target.id,
         space: length,
-        offsetX: Math.floor(ev.offsetX / (imgWidth/length)),
-        offsetY: Math.floor(ev.offsetY / (imgHeight/1)),
+        offsetX: ori == 'horizontal' ? widthOffset : heightOffset,
+        offsetY: ori == 'horizontal' ? heightOffset : widthOffset,
     }));
+
+    ev.dataTransfer.setDragImage(ghostImg, 0, 0);
 
     ev.target.style.opacity = '0';
     draggedImg = ev.target;
@@ -44,18 +56,18 @@ function dragOver(ev, gameObj) {
     if (!draggedImg) return;
     const playerBoard = gameObj.getCurrentPlayerBoard();
 
-    let cell;
+    let hoveredCell;
     if (ev.target.classList.contains('game-piece-img') && ev.target.id == draggedImg.id) {
         ev.target.style.zIndex = '0';
-        cell = ev.target.closest('.board-cell');
+        hoveredCell = ev.target.closest('.board-cell');
     } else {
-        cell = ev.target;
+        hoveredCell = ev.target;
     }
 
     const len = parseInt(draggedImg.getAttribute('length'));
-    const headX = parseInt(cell.getAttribute('x')) - adjX;
-    const headY = parseInt(cell.getAttribute('y')) - adjY;
     const ori = draggedImg.getAttribute('orientation');
+    const headX = parseInt(hoveredCell.getAttribute('x')) - adjX;
+    const headY = parseInt(hoveredCell.getAttribute('y')) - adjY;
     const shipID = parseInt(draggedImg.getAttribute('shipID'));
     const currentShip = playerBoard.getShip(shipID);
     const currentShipLocation = currentShip ? currentShip.cells : [];

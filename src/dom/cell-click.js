@@ -1,25 +1,14 @@
 import { displayAllGameboards, announceWinner, createCurrentPlayerDoneButton } from './screen-controller.js';
 import { displayEndGameScreen } from './set-up-input.js';
 
+// Enables the Opponent's (Computer) board to be clicked to trigger an attack on their board
 export function makeComputerOpponentBoardClickable(gameObj) {
     const opponentBoardDOM = document.querySelector('.opponent-board');
     if (!opponentBoardDOM) return;
     makeBoardClickable(opponentBoardDOM, gameObj, attackComputer);
-
-    // //gameBot
-    // gameObj.compMakeMove2();
-    // displayAllGameboards(gameObj);
-
-    // // The player's move ends the game
-    // if (gameObj.isGameOver()) {
-    //     endGame(gameObj);
-    //     return;
-    // }
-    // computerMakesMove(gameObj);
-    // //
-
 }
 
+// Enables the Opponent's (Player) board to be clicked to trigger an attack on their board
 export function makePlayerOpponentBoardClickable(gameObj) {
     const opponentBoardDOM = document.querySelector('.opponent-board');
     if (!opponentBoardDOM) return;
@@ -75,8 +64,6 @@ function attackOpponentBoard(gameObj, x, y) {
 
     // Do something if a ship is sunk
     if (typeof shipID === 'number') {
-        console.log('SHIP SUNK!!!!!!!');
-        console.log(shipID);
     }
 
     displayAllGameboards(gameObj);
@@ -90,7 +77,6 @@ function attackOpponentBoard(gameObj, x, y) {
 
 function computerAttacksBoard(gameObj) {
     gameObj.compMakeMove();
-    console.log('Player: ', gameObj.getCurrentPlayer().getName());
 
     if (gameObj.isGameOver()) {
         gameObj.switchPlayer();

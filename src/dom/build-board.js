@@ -1,8 +1,8 @@
 import { buildImgDOM, makeImgDOMMoveable } from './build-piece-img.js';
-
 import shipsJSON from './ships.json' with { type:'json' };
 import dot from '../images/icons/dot.svg';
 
+// Create a DOM element that represents the game board
 export function buildDOMBoard(gameBoardObj) {
     const board = gameBoardObj.getBoard();
     const boardContainer = document.createElement('ul');
@@ -21,6 +21,7 @@ export function buildDOMBoard(gameBoardObj) {
     return boardContainer;
 }
 
+// Given the DOM game board, displays a specific ship on the DOM game board
 function showShipOnDOMBoard(id, gameBoardDOM, gameboardShipObj) {
     const headX = gameboardShipObj.headX;
     const headY = gameboardShipObj.headY;
@@ -32,6 +33,7 @@ function showShipOnDOMBoard(id, gameBoardDOM, gameboardShipObj) {
     cellDOM.appendChild(shipImgDOM);
 }
 
+// Displays the ships on the DOM game board if they have sunk
 export function showAllSunkShipsOnDOMBoard(gameBoardDOM, gameBoardObj) {
     const ships = gameBoardObj.getAllShips();
     for (let id = 0; id < ships.length; id++) {
@@ -43,6 +45,7 @@ export function showAllSunkShipsOnDOMBoard(gameBoardDOM, gameBoardObj) {
     }
 }
 
+// Displays all ships on the DOM game board
 export function showAllShipsOnDOMBoard(gameBoardDOM, gameBoardObj) {
     const ships = gameBoardObj.getAllShips();
     for (let id = 0; id < ships.length; id++) {
@@ -53,11 +56,13 @@ export function showAllShipsOnDOMBoard(gameBoardDOM, gameBoardObj) {
     }
 }
 
+// Makes it so that the ships on the DOM game board can be dragged and moved
 export function makeAllShipsOnDOMBoardMoveable(gameBoardDOM, gameBoardObj) {
     const shipsDOM = gameBoardDOM.querySelectorAll('.game-piece-img');
     shipsDOM.forEach((ship) => makeImgDOMMoveable(ship, gameBoardObj));
 }
 
+// Displays the hit marker on the DOM game board
 export function showHitsOnDOMBoard(gameBoardDOM, gameBoardObj) {
     const board = gameBoardObj.getBoard();
     for (let y = 0; y < board.length; y++) {

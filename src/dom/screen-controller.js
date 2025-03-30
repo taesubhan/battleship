@@ -3,7 +3,6 @@ import { removeAllChildren } from './dom-functions.js';
 import { makeBoardDroppable } from './moving-pieces.js';
 import { buildGamePiecesImgContainer, removeGamePiecesImgContainer } from './build-piece-img.js';
 
-
 function displayOpponentBoard(gameObj) {
     const opponentBoardContainer = document.querySelector('.opponent-container');
     removeAllChildren(opponentBoardContainer);
@@ -15,6 +14,9 @@ function displayOpponentBoard(gameObj) {
 
     opponentBoardDOM.classList.add('opponent-board');
     opponentBoardContainer.appendChild(opponentBoardDOM);
+
+    const boardsContainer = document.querySelector('.all-game-board-container');
+    boardsContainer.classList.add('contains-opponent-board');
 }
 
 export function displayCurrentPlayerBoard(gameObj) {
@@ -27,6 +29,9 @@ export function displayCurrentPlayerBoard(gameObj) {
 
     playerBoardDOM.classList.add('player-board');
     playerBoardContainer.appendChild(playerBoardDOM);
+
+    const boardsContainer = document.querySelector('.all-game-board-container');
+    boardsContainer.classList.add('contains-player-board');
 }
 
 export function makePiecesMoveableOnPlayerBoard(gameObj) {
@@ -46,11 +51,33 @@ export function displayAllGameboards(gameObj) {
 
 export function announceWinner(gameObj) {
     displayGameMessage( `${gameObj.getCurrentPlayer().getName()} wins!`)
-    // setTimeout(() => displayGameMessage( `${gameObj.getCurrentPlayer().getName()} wins!`), 100);
+}
+
+// Creates a Div element where the game announcements will be displayed
+function createMessageBox() {
+    const messageBox = document.createElement('div');
+    messageBox.classList.add('message-container');
+
+    const gameMessage = document.createElement('div');
+    const errorMessage = document.createElement('div');
+    gameMessage.classList.add('game-message');
+    errorMessage.classList.add('error-message');
+
+    messageBox.appendChild(gameMessage);
+    messageBox.appendChild(errorMessage);
+
+    return messageBox;
+}
+
+function setUpMessageBox() {
+    const textOutput = document.querySelector('.text-output');
+    if (textOutput.firstChild) return;
+    textOutput.appendChild(createMessageBox());
 }
 
 export function displayGameMessage(...messages) {
     clearGameMessage();
+    setUpMessageBox();
 
     const gameMessageBox = document.querySelector('.game-message');
     for (const message of messages) {
@@ -63,6 +90,7 @@ export function displayGameMessage(...messages) {
 
 export function displayError(...errors) {
     clearError();
+    setUpMessageBox();
 
     const errorMessageBox = document.querySelector('.error-message');
     for (const err of errors) {
@@ -84,8 +112,8 @@ function clearGameMessage() {
 }
 
 export function clearAllMessages() {
-    clearError();
-    clearGameMessage();
+    const textOutput = document.querySelector('.text-output');
+    removeAllChildren(textOutput);
 }
 
 export function removeBoards() {
@@ -93,6 +121,9 @@ export function removeBoards() {
     const playerBoardContainer = document.querySelector('.player-container');
     removeAllChildren(opponentBoardContainer);
     removeAllChildren(playerBoardContainer);
+
+    const boardsContainer = document.querySelector('.all-game-board-container');
+    boardsContainer.classList.remove('contains-opponent-board', 'contains-player-board');
 }
 
 export function addGamePiecesDOM(gameboardObj) {
@@ -103,27 +134,26 @@ export function addGamePiecesDOM(gameboardObj) {
     boardAndPiecesDOM.appendChild(gamePieces);
 }
 
+// Adds text on top of each board that let's players know who's board it is
 function displayBoardOwnership() {
-    // const oppName = gameObj.getCurrentOpponent().getName();
-    // const playerName = gameObj.getCurrentPlayer().getName();
-
     const opponentBoardContainer = document.querySelector('.opponent-container');
     const opponentTitle = document.createElement('p');
-    opponentTitle.classList.add('opponent-board-title');
+    opponentTitle.classList.add('opponent-board-title', 'board-title');
     opponentTitle.textContent = `Opponent's board`;
     opponentBoardContainer.prepend(opponentTitle);
 
     const playerBoardContainer = document.querySelector('.player-container');
     const playerTitle = document.createElement('p');
-    playerTitle.classList.add('player-board-title');
+    playerTitle.classList.add('player-board-title', 'board-title');
     playerTitle.textContent = `Your board`;
     playerBoardContainer.prepend(playerTitle);
 }
 
+// For Player vs. Player mode. Button appears after player makes a move on board
 export function createCurrentPlayerDoneButton(gameObj, nextPlayerFunc) {
     
     const turnDoneBtn = document.createElement('button');
-    turnDoneBtn.classList.add('turn-complete');
+    turnDoneBtn.classList.add('turn-complete', 'game-button');
     turnDoneBtn.textContent = 'Next player'
     turnDoneBtn.addEventListener('click', (e) => {
         createNextPlayerButton(gameObj, nextPlayerFunc)
@@ -134,15 +164,16 @@ export function createCurrentPlayerDoneButton(gameObj, nextPlayerFunc) {
     setUp.appendChild(turnDoneBtn);
 }
 
+// For Player vs. Player mode. When the screen to prompt player to turn the screen to the other player, this button will be there to prompt next turn
 function createNextPlayerButton(gameObj, nextPlayerFunc) {
     const oppName = gameObj.getCurrentOpponent().getName();
     const playerName = gameObj.getCurrentPlayer().getName();
 
     removeBoards();
-    displayGameMessage(`${playerName}, please hand the computer over to ${oppName}`,`${oppName}, click on the 'ready' button to start your turn`);
+    displayGameMessage(`${playerName}, please hand the computer over to ${oppName}`,`${oppName}, click on the "Ready" button to start your turn`);
 
     const nextBtn = document.createElement('button');
-    nextBtn.classList.add('ready-for-next-player');
+    nextBtn.classList.add('ready-for-next-player', 'game-button');
     nextBtn.textContent = 'Ready'
     nextBtn.addEventListener('click', (e) => {
         nextPlayerFunc(gameObj);

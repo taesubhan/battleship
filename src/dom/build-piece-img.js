@@ -1,7 +1,6 @@
 import { makePieceMoveable } from './moving-pieces.js';
-
+import { removeAllChildren } from './dom-functions.js';
 import shipsJSON from './ships.json' with { type:'json' };
-
 
 // Builds all game pieces on the side of board for player to drag onto game board
 export function buildGamePiecesImgContainer(gameboardObj) {
@@ -24,16 +23,24 @@ export function buildGamePiecesImgContainer(gameboardObj) {
     return container;
 }
 
+// Removes the container that initially holds all the ship pieces (when the player first is prompted to place their ships on board)
 export function removeGamePiecesImgContainer() {
     const gamePieceContainer = document.querySelector('.game-pieces-container');
     if (gamePieceContainer) gamePieceContainer.remove();
 }
 
+// Keeps the container, but just removes the ship images
+export function emptyGamePiecesImgContainer() {
+    const gamePieceContainer = document.querySelector('.game-pieces-container');
+    if (gamePieceContainer) removeAllChildren(gamePieceContainer);
+}
+
+// Build the DOM image element of the ship
 export function buildImgDOM(id, link, length, orientation = 'horizontal') {
     const img = new Image(); 
     img.src = link;
     img.alt = `game piece ${id + 1}`;
-    img.classList.add('game-piece-img');
+    img.classList.add('game-piece-img', 'draggable-element');
     img.id = `piece-${id + 1}`;
     img.setAttribute('orientation', orientation);
     img.setAttribute('shipID', id);
@@ -43,6 +50,7 @@ export function buildImgDOM(id, link, length, orientation = 'horizontal') {
     return img;
 }
 
+// Make the ship DOM element moveable by dragging and dropping
 export function makeImgDOMMoveable(imgDOM, gameboardObj) {
     const length = parseInt(imgDOM.getAttribute('length'));
     const id = parseInt(imgDOM.getAttribute('shipid'));

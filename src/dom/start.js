@@ -1,6 +1,6 @@
-import { setUpStartMenu, setUpGameSettings } from './set-up-input.js';
+import { setUpStartMenu, displayGameTitle } from './set-up-input.js';
 
 export function startGame() {
+    displayGameTitle();
     setUpStartMenu();
-    // setUpGameSettings();
 }

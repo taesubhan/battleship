@@ -2,8 +2,7 @@ import { Player } from './player.js';
 import { getRandomNum } from './computer.js';
 import { Computer } from './computer.js';
 
-//find way to move already placed pieces
-
+// Object that represents the game state
 export function Gameplay(firstPlayerName = 'Player 1', secondPlayerName = 'Player 2', gameboardSize = 10) {
     let player1;
     let player2;
