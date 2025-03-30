@@ -1,7 +1,0 @@
-[] Organize code
-[] Comment code
-[] Make game more aesthetic
-
-
-Later:
-[] add delay in computer's action
