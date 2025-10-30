@@ -1,14 +1,20 @@
 import { makePieceMoveable } from './moving-pieces.js';
 import { removeAllChildren } from './dom-functions.js';
-import shipsJSON from './ships.json' with { type:'json' };
+import battleShip1 from "../images/icons/battleship-piece-1.png";
+import battleShip2 from "../images/icons/battleship-piece-2.png";
+import battleShip3 from "../images/icons/battleship-piece-3.png";
+import battleShip4 from "../images/icons/battleship-piece-4.png";
+import battleShip5 from "../images/icons/battleship-piece-5.png";
+
+const shipsImgStorage = [battleShip1, battleShip2, battleShip3, battleShip4, battleShip5]
 
 // Builds all game pieces on the side of board for player to drag onto game board
 export function buildGamePiecesImgContainer(gameboardObj) {
     const container = document.createElement('div');
     container.classList.add('game-pieces-container');
 
-    for (let i = 0; i < shipsJSON.length; i++) {
-        const imgObj = shipsJSON[i];
+    for (let i = 0; i < shipsImgStorage.length; i++) {
+        const imgObj = shipsImgStorage[i];
 
         const imgDiv = document.createElement('div');
         imgDiv.classList.add('game-piece');
