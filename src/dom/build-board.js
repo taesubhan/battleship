@@ -1,13 +1,6 @@
 import { buildImgDOM, makeImgDOMMoveable } from './build-piece-img.js';
-// import shipsJSON from './ships.json' with { type:'json' };
 import dot from '../images/icons/dot.svg';
-import battleShip1 from "../images/icons/battleship-piece-1.png";
-import battleShip2 from "../images/icons/battleship-piece-2.png";
-import battleShip3 from "../images/icons/battleship-piece-3.png";
-import battleShip4 from "../images/icons/battleship-piece-4.png";
-import battleShip5 from "../images/icons/battleship-piece-5.png";
-
-const shipsImgStorage = [battleShip1, battleShip2, battleShip3, battleShip4, battleShip5]
+import shipsImgStorage from './ships.js';
 
 // Create a DOM element that represents the game board
 export function buildDOMBoard(gameBoardObj) {
@@ -35,8 +28,8 @@ function showShipOnDOMBoard(id, gameBoardDOM, gameboardShipObj) {
     const orientation = gameboardShipObj.orientation;
 
     const cellDOM = gameBoardDOM.querySelector(`li[x="${headX}"][y="${headY}"]`);
-    const shipJSON = shipsshipsImgStoragegStorage[id];
-    const shipImgDOM = buildImgDOM(id, shipJSON.link, shipJSON.length, orientation); //How to determine if it should be moveable or static
+    const shipObj = shipsImgStorage[id];
+    const shipImgDOM = buildImgDOM(id, shipObj.link, shipObj.length, orientation); //How to determine if it should be moveable or static
     cellDOM.appendChild(shipImgDOM);
 }
 
