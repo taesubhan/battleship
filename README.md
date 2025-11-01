@@ -16,4 +16,4 @@ Link: https://taesubhan.github.io/battleship/
 ## Lessons Highlights
 - Practiced modular JavaScript architecture using factory and module patterns
 - Practiced developing a bot algorithm that utilizes queue data structure to track action history
-- Experienced writing tests in Jest to ensure game logic functions worked as intended
+- Gained experience writing tests in Jest to ensure game logic functions worked as intended
