@@ -4,6 +4,8 @@ A classic Battleship board game built with JavaScript, HTML, and CSS where playe
 
 Link: https://taesubhan.github.io/battleship/
 
+<img width="1300" height="910" alt="Screenshot from 2025-11-01 16-16-11" src="https://github.com/user-attachments/assets/16a4a05f-5d69-459d-835f-d2c949045c98" />
+
 ## Features
 - Two Game Modes:  
   - Player vs Player (local)
@@ -14,3 +16,4 @@ Link: https://taesubhan.github.io/battleship/
 ## Lessons Highlights
 - Practiced modular JavaScript architecture using factory and module patterns
 - Practiced developing a bot algorithm that utilizes queue data structure to track action history
+- Experienced writing tests in Jest to ensure game logic functions worked as intended
